@@ -9,18 +9,18 @@ import {
   Alert,
 } from "react-native";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
-
 import { RootStackParamList } from "../navigation/types";
 import { useProdutos } from "../context/ProdutosContext";
 
-type Props = NativeStackScreenProps<RootStackParamList, "AddProduto">;
+type Props = NativeStackScreenProps<RootStackParamList, "EditProduto">;
 
-export default function AddProdutoScreen({ navigation }: Props) {
-  const { addProduto } = useProdutos();
+export default function EditProdutoScreen({ route, navigation }: Props) {
+  const { produto } = route.params;
+  const { updateProduto } = useProdutos();
 
-  const [nome, setNome] = useState("");
-  const [quantidade, setQuantidade] = useState("");
-  const [preco, setPreco] = useState("");
+  const [nome, setNome] = useState(produto.nome);
+  const [quantidade, setQuantidade] = useState(String(produto.quantidade));
+  const [preco, setPreco] = useState(String(produto.preco));
 
   function salvar() {
     if (!nome.trim() || !quantidade.trim() || !preco.trim()) {
@@ -36,24 +36,18 @@ export default function AddProdutoScreen({ navigation }: Props) {
       return;
     }
 
-    addProduto({ nome: nome.trim(), quantidade: qtd, preco: prc });
+    updateProduto({ ...produto, nome: nome.trim(), quantidade: qtd, preco: prc });
     navigation.goBack();
   }
 
   return (
     <SafeAreaView style={styles.container}>
       <Text style={styles.label}>Nome do produto</Text>
-      <TextInput
-        style={styles.input}
-        placeholder="Ex.: Teclado Mecânico"
-        value={nome}
-        onChangeText={setNome}
-      />
+      <TextInput style={styles.input} value={nome} onChangeText={setNome} />
 
       <Text style={styles.label}>Quantidade</Text>
       <TextInput
         style={styles.input}
-        placeholder="Ex.: 10"
         value={quantidade}
         onChangeText={setQuantidade}
         keyboardType="numeric"
@@ -62,14 +56,13 @@ export default function AddProdutoScreen({ navigation }: Props) {
       <Text style={styles.label}>Preço</Text>
       <TextInput
         style={styles.input}
-        placeholder="Ex.: 350.50"
         value={preco}
         onChangeText={setPreco}
         keyboardType="numeric"
       />
 
       <TouchableOpacity style={styles.btnSalvar} onPress={salvar}>
-        <Text style={styles.btnTexto}>Salvar</Text>
+        <Text style={styles.btnTexto}>Salvar alterações</Text>
       </TouchableOpacity>
     </SafeAreaView>
   );
@@ -87,7 +80,7 @@ const styles = StyleSheet.create({
   },
   btnSalvar: {
     marginTop: 16,
-    backgroundColor: "#198754",
+    backgroundColor: "#0d6efd",
     padding: 14,
     borderRadius: 10,
     alignItems: "center",
