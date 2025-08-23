@@ -1,13 +1,5 @@
 import React from "react";
-import {
-  SafeAreaView,
-  View,
-  Text,
-  FlatList,
-  StyleSheet,
-  TouchableOpacity,
-  Alert,
-} from "react-native";
+import {SafeAreaView,View,Text,FlatList,StyleSheet,TouchableOpacity,Alert,} from "react-native";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { Ionicons } from "@expo/vector-icons";
 
